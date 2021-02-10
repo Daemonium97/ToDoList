@@ -17,10 +17,19 @@ export function Home() {
 		]);
 		setTarea("");
 	};
+	const borrarArray = id => {
+		for (let i = 0; i < arrayTareas.length; i++) {
+			if (arrayTareas[i].id === id) {
+				arrayTareas.splice(i, 1);
+				//console.log(arrayTareas);
+				setArrayTareas([...arrayTareas]);
+			}
+		}
+	};
 
 	return (
 		<div className="container">
-			<h1 className="text-center fs-2">ToDoList</h1>
+			<h1 className="text-center">ToDoList</h1>
 			<div className="row">
 				<div className="col-12 justify-content-center">
 					<form onSubmit={agregarTarea}>
@@ -35,6 +44,16 @@ export function Home() {
 						{arrayTareas.map(item => (
 							<li className="list-group-item" key={item.id}>
 								<span className="lead">{item.nombreTarea}</span>
+								<button
+									type="button"
+									className="ml-2 mb-1 close"
+									data-dismiss="toast"
+									aria-label="Close"
+									onClick={() => {
+										borrarArray(item.id);
+									}}>
+									<i className="fas fa-skull"></i>
+								</button>
 							</li>
 						))}
 					</ul>
