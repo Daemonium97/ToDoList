@@ -3,39 +3,46 @@ import shortid from "shortid";
 
 //create your first component
 export function Home() {
-	const [tarea, setTarea] = React.useState("");
-	const [arrayTareas, setArrayTareas] = React.useState([]);
+	const [tarea, setTarea] = React.useState(""); //useState actualiza las tareas que vamos ingresando
+	const [arrayTareas, setArrayTareas] = React.useState([]); //useState agrega las tareas que ingresamos por medio del input al arrayTareas y la actualiza con el setTareas
 	const agregarTarea = e => {
-		e.preventDefault();
-		console.log(tarea);
+		//el form llama esta funcion para agregar la tarea al array
+		e.preventDefault(); //evita que el form mande todo sin confirmacion
 		setArrayTareas([
-			...arrayTareas,
+			//el array de las tareas
+			...arrayTareas, //va guardando las tarea deforma que apenas se ingresa una la otra pasa a estar debajo
+
 			{
-				id: shortid.generate(),
+				id: shortid.generate(), //se usa npm shortid para generar un id aleatorio con el metodo generate()
 				nombreTarea: tarea
 			}
 		]);
-		setTarea("");
+		setTarea(""); //poniendo esto afuera hace que se reinicia el input luego de ingresar algo y se ve mas bonito
 	};
 	const borrarArray = id => {
 		for (let i = 0; i < arrayTareas.length; i++) {
+			//recorre el arrayTareas para encontrar la tarea con el id que estamos buscando
 			if (arrayTareas[i].id === id) {
-				arrayTareas.splice(i, 1);
-				//console.log(arrayTareas);
+				//chequea que la tarea tenga el mismo id
+				arrayTareas.splice(i, 1); //el metodo splice() elimina elementos de un array recibiendo como parametros el index del elemento que quiero eliminar y la cantidad de elementos que quiero eliminar
+
 				setArrayTareas([...arrayTareas]);
 			}
 		}
 	};
 
+	//aqui abajo hay un map que me devuelve los items o tareas ingresadas acomodadas de forma vertical bien bonito
+	//el map tambien recorre el arrayTareas y le pasamos el index por medio de item, luego con un punto le agregamos el id que queremos encontrar en ese elemento
+	//el boton contiene una funcion flecha que se encarga de llamar a la funcion borrar y por medio de item.id la identifica y la elimina del array
 	return (
-		<div className="container">
-			<h1 className="text-center">ToDoList</h1>
+		<div className="container ">
+			<h1 className="text-center ">ToDoList</h1>
 			<div className="row">
-				<div className="col-12 justify-content-center">
-					<form onSubmit={agregarTarea}>
+				<div className="col-12 justify-content-center ">
+					<form onSubmit={agregarTarea} className="form1">
 						<input
 							type="text"
-							className="form-control mb-2"
+							className="form-control mb-2 rounded border border-dark"
 							placeholder="Do Something.."
 							onChange={e => setTarea(e.target.value)}
 							value={tarea}></input>
