@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import shortid from "shortid";
 
-//create your first component
+//fetch para crear mi user
+
 export function Home() {
 	const [tarea, setTarea] = React.useState(""); //useState actualiza las tareas que vamos ingresando
 	const [arrayTareas, setArrayTareas] = React.useState([]); //useState agrega las tareas que ingresamos por medio del input al arrayTareas y la actualiza con el setTareas
@@ -10,7 +11,7 @@ export function Home() {
 		e.preventDefault(); //evita que el form mande todo sin confirmacion
 		setArrayTareas([
 			//el array de las tareas
-			...arrayTareas, //va guardando las tarea deforma que apenas se ingresa una la otra pasa a estar debajo
+			...arrayTareas, //va guardando las tarea de forma que apenas se ingresa una la otra pasa a estar debajo
 
 			{
 				id: shortid.generate(), //se usa npm shortid para generar un id aleatorio con el metodo generate()
@@ -30,6 +31,33 @@ export function Home() {
 			}
 		}
 	};
+
+	//fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
+	//method: "POST",
+	//body: JSON.stringify([])
+	//})
+	//.then(response => {
+	//return response.json();
+	//})
+	//.then(data => {})
+	//.catch(error => {});
+
+	fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
+		method: "GET",
+		headers: { "Content-Type": "application/json" }
+	})
+		.then(response => {
+			console.log(response.ok);
+			console.log(response.status);
+			console.log(response.text);
+			return response.json();
+		})
+		.then(data => {
+			console.log(data);
+		})
+		.catch(error => {
+			console.log(error);
+		});
 
 	//aqui abajo hay un map que me devuelve los items o tareas ingresadas acomodadas de forma vertical bien bonito
 	//el map tambien recorre el arrayTareas y le pasamos el index por medio de item, luego con un punto le agregamos el id que queremos encontrar en ese elemento
