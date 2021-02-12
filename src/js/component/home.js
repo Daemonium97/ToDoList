@@ -32,25 +32,14 @@ export function Home() {
 		}
 	};
 
-	//fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
-	//method: "POST",
-	//body: JSON.stringify([])
-	//})
-	//.then(response => {
-	//return response.json();
-	//})
-	//.then(data => {})
-	//.catch(error => {});
-
-	fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
-		method: "GET",
-		headers: { "Content-Type": "application/json" }
-	})
-		.then(response => {
-			console.log(response.ok);
-			console.log(response.status);
-			console.log(response.text);
-			return response.json();
+	fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium")
+		.then(res => {
+			if (res.ok) {
+				console.log("Sucessful");
+			} else {
+				console.log("Unsucessful");
+			}
+			return res.json();
 		})
 		.then(data => {
 			console.log(data);
