@@ -14,8 +14,8 @@ export function Home() {
 			...arrayTareas, //va guardando las tarea de forma que apenas se ingresa una la otra pasa a estar debajo
 
 			{
-				id: shortid.generate(), //se usa npm shortid para generar un id aleatorio con el metodo generate()
-				nombreTarea: tarea
+				id: shortid.generate() //se usa npm shortid para generar un id aleatorio con el metodo generate()
+				//nombreTarea: tarea
 			}
 		]);
 		setTarea(""); //poniendo esto afuera hace que se reinicia el input luego de ingresar algo y se ve mas bonito
@@ -31,22 +31,60 @@ export function Home() {
 			}
 		}
 	};
+	const createInfo = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify([])
+		})
+			.then(res => res.json())
+			.then(data => {
+				console.log(data);
+			})
+			.catch(error => {});
+	};
 
-	fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium")
-		.then(res => {
-			if (res.ok) {
-				console.log("Sucessful");
-			} else {
-				console.log("Unsucessful");
-			}
-			return res.json();
+	const getData = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium")
+			.then(res => res.json())
+			.then(data => {
+				setArrayTareas([...data]);
+			})
+			.catch(error => {});
+	};
+
+	const sendInfo = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify([
+				{ label: "Make the bed", done: false },
+				{ label: "Walk the dog", done: false },
+				{ label: "Do the replits", done: false },
+				{ label: "Diego", done: true }
+			])
 		})
-		.then(data => {
-			console.log(data);
+			.then(res => res.json())
+			.then(data => {
+				console.log(data);
+			})
+			.catch(error => {});
+	};
+	const deleteInfo = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
+			method: "DELETE"
 		})
-		.catch(error => {
-			console.log(error);
-		});
+			.then(res => res.json())
+			.then(data => {
+				console.log(data);
+			})
+			.catch(error => {});
+	};
+	getData();
 
 	//aqui abajo hay un map que me devuelve los items o tareas ingresadas acomodadas de forma vertical bien bonito
 	//el map tambien recorre el arrayTareas y le pasamos el index por medio de item, luego con un punto le agregamos el id que queremos encontrar en ese elemento
@@ -67,7 +105,7 @@ export function Home() {
 					<ul className="list-group">
 						{arrayTareas.map(item => (
 							<li className="list-group-item" key={item.id}>
-								<span className="lead">{item.nombreTarea}</span>
+								<span className="lead">{item.label}</span>
 								<button
 									type="button"
 									className="ml-2 mb-1 close"
