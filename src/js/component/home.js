@@ -14,12 +14,13 @@ export function Home() {
 			...arrayTareas, //va guardando las tarea de forma que apenas se ingresa una la otra pasa a estar debajo
 
 			{
-				id: shortid.generate() //se usa npm shortid para generar un id aleatorio con el metodo generate()
-				//nombreTarea: tarea
+				id: shortid.generate(), //se usa npm shortid para generar un id aleatorio con el metodo generate()
+				nombreTarea: tarea
 			}
 		]);
 		setTarea(""); //poniendo esto afuera hace que se reinicia el input luego de ingresar algo y se ve mas bonito
 	};
+
 	const borrarArray = id => {
 		for (let i = 0; i < arrayTareas.length; i++) {
 			//recorre el arrayTareas para encontrar la tarea con el id que estamos buscando
@@ -31,60 +32,13 @@ export function Home() {
 			}
 		}
 	};
-	const createInfo = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify([])
-		})
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-			})
-			.catch(error => {});
-	};
 
-	const getData = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium")
-			.then(res => res.json())
-			.then(data => {
-				setArrayTareas([...data]);
-			})
-			.catch(error => {});
-	};
-
-	const sendInfo = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify([
-				{ label: "Make the bed", done: false },
-				{ label: "Walk the dog", done: false },
-				{ label: "Do the replits", done: false },
-				{ label: "Diego", done: true }
-			])
-		})
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-			})
-			.catch(error => {});
-	};
-	const deleteInfo = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/daemonium", {
-			method: "DELETE"
-		})
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-			})
-			.catch(error => {});
-	};
-	getData();
+	const url = "https://assets.breatheco.de/apis/fake/todos/user/daemonium";
+	fetch(url)
+		.then(res => res.json())
+		.then(data => {
+			setArrayTareas(data);
+		});
 
 	//aqui abajo hay un map que me devuelve los items o tareas ingresadas acomodadas de forma vertical bien bonito
 	//el map tambien recorre el arrayTareas y le pasamos el index por medio de item, luego con un punto le agregamos el id que queremos encontrar en ese elemento
